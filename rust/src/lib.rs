@@ -1,5 +1,8 @@
 use godot::prelude::*;
 
+mod player;
+mod world;
+
 struct Template;
 
 #[gdextension]
