@@ -1,4 +1,4 @@
-use godot::engine::{CharacterBody2D, ICharacterBody2D};
+use godot::engine::{AnimationPlayer, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
@@ -23,6 +23,30 @@ impl Player {
         );
         self.base.set_velocity(movement_vec * self.speed)
     }
+
+    #[func]
+    pub fn update_animation(&mut self) {
+        let mut animation_player = self.base.get_node_as::<AnimationPlayer>("AnimationPlayer");
+        if self.base.get_velocity().length_squared() == 0.0 {
+            return animation_player.stop();
+        }
+
+        let mut animation_name = "walkDown";
+        if self.base.get_velocity().x < 0.0 {
+            animation_name = "walkLeft";
+        }
+        if self.base.get_velocity().x > 0.0 {
+            animation_name = "walkRight";
+        }
+        if self.base.get_velocity().y < 0.0 {
+            animation_name = "walkUp";
+        }
+
+        animation_player
+            .play_ex()
+            .name(animation_name.into())
+            .done();
+    }
 }
 
 #[godot_api]
@@ -36,6 +60,7 @@ impl ICharacterBody2D for Player {
 
     fn physics_process(&mut self, _delta: f64) {
         self.handle_input();
+        self.update_animation();
         self.base.move_and_slide();
     }
 }

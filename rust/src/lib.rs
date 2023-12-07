@@ -1,5 +1,6 @@
 use godot::prelude::*;
 
+mod follow_cam;
 mod player;
 mod world;
 
