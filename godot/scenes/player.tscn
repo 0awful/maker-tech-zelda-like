@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://3v0fi33fsnxa"]
+[gd_scene load_steps=10 format=3 uid="uid://3v0fi33fsnxa"]
 
 [ext_resource type="Texture2D" uid="uid://busfl76guhyoi" path="res://art/player-sprites.png" id="1_rov8q"]
 
@@ -99,7 +99,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6odd3"]
-size = Vector2(7.75, 4.75)
+size = Vector2(12, 4.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_62ygx"]
+size = Vector2(14, 11)
 
 [node name="Player" type="Player"]
 z_index = 1
@@ -117,5 +120,13 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.125, 5.375)
+position = Vector2(0, 5.375)
 shape = SubResource("RectangleShape2D_6odd3")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_62ygx")
+debug_color = Color(0.843137, 0.372549, 0.184314, 0.419608)

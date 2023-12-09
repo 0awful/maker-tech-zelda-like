@@ -47,6 +47,16 @@ impl Player {
             .name(animation_name.into())
             .done();
     }
+
+    #[func]
+    pub fn handle_collision(&mut self) {
+        for collision_index in 1..self.base.get_slide_collision_count() {
+            if let Some(collision) = self.base.get_slide_collision(collision_index) {
+                let collider = collision.get_collider();
+                godot_print!("{:?}", collider);
+            }
+        }
+    }
 }
 
 #[godot_api]
@@ -61,6 +71,7 @@ impl ICharacterBody2D for Player {
     fn physics_process(&mut self, _delta: f64) {
         self.handle_input();
         self.update_animation();
+        self.handle_collision();
         self.base.move_and_slide();
     }
 }

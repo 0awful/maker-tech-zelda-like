@@ -2,6 +2,7 @@ use godot::prelude::*;
 
 mod follow_cam;
 mod player;
+mod slime;
 mod world;
 
 struct Template;
