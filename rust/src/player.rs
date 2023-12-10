@@ -132,7 +132,9 @@ impl ICharacterBody2D for Player {
         if !self.invincible {
             let hurtbox = self.base.get_node_as::<Area2D>("HurtBox");
             for area in hurtbox.get_overlapping_areas().iter_shared() {
-                self.hurt_by_enemy(area);
+                if area.get_name() == "hitbox".into() {
+                    self.hurt_by_enemy(area);
+                }
             }
         }
     }

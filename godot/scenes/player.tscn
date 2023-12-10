@@ -182,6 +182,3 @@ debug_color = Color(0.843137, 0.372549, 0.184314, 0.419608)
 libraries = {
 "": SubResource("AnimationLibrary_0301o")
 }
-
-[connection signal="area_entered" from="HurtBox" to="." method="on_enter_player_hitbox"]
-[connection signal="area_exited" from="HurtBox" to="." method="on_exit_player_hitbox"]
