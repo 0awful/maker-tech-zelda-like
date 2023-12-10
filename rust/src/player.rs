@@ -1,3 +1,5 @@
+use std::net::AddrParseError;
+
 use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
@@ -13,6 +15,8 @@ pub struct Player {
     pub current_health: i32,
     pub max_health: i32,
     pub knockback_power: real,
+    collisions: Vec<Gd<Area2D>>,
+    invincible: bool,
 }
 
 #[godot_api]
@@ -55,31 +59,55 @@ impl Player {
             .name(animation_name.into())
             .done();
     }
-    //    #[func]
-    //   pub fn handle_collision(&mut self) {
-    //      for collision_index in 1..self.base.get_slide_collision_count() {
-    //         if let Some(collision) = self.base.get_slide_collision(collision_index) {
-    //            let collider = collision.get_collider();
-    //       }
-    //  }
-    //}
 
     #[func]
-    pub fn on_player_hit(&mut self, area: Gd<Area2D>) {
+    pub fn on_enter_player_hitbox(&mut self, area: Gd<Area2D>) {
         if area.get_name() == "HitBox".into() {
-            self.current_health -= 1;
-            self.base
-                .emit_signal("hit".into(), &[Variant::from(self.current_health)]);
-            if let Some(parent) = area.get_parent() {
-                if let Ok(parent) = parent.try_cast::<Slime>() {
-                    self.knockback(parent.get_velocity());
-                } else {
-                    godot_error!("Hitbox does not belong to slime");
-                }
-            } else {
-                godot_error!("Hitbox does not have a parent");
-            }
+            self.collisions.push(area)
         }
+    }
+
+    #[func]
+    pub fn on_exit_player_hitbox(&mut self, area: Gd<Area2D>) {
+        self.collisions.retain(|v| v != &area);
+    }
+
+    pub fn hurt_by_enemy(&mut self, area: Gd<Area2D>) {
+        self.current_health -= 1;
+
+        if self.current_health < 0 {
+            self.current_health = self.max_health;
+        }
+
+        self.invincible = true;
+        self.base
+            .emit_signal("hit".into(), &[Variant::from(self.current_health)]);
+        if let Some(parent) = area.get_parent() {
+            if let Ok(parent) = parent.try_cast::<Slime>() {
+                self.knockback(parent.get_velocity());
+            } else {
+                godot_error!("Hitbox does not belong to slime");
+            }
+        } else {
+            godot_error!("Hitbox does not have a parent");
+        }
+        self.base
+            .get_node_as::<AnimationPlayer>("Effects")
+            .play_ex()
+            .name("HurtBlink".into())
+            .done();
+        let mut timer = self.base.get_tree().unwrap().create_timer(2.0).unwrap();
+        timer.connect("timeout".into(), self.base.callable("end_invincibility"));
+    }
+
+    #[func]
+    pub fn end_invincibility(&mut self) {
+        self.base
+            .get_node_as::<AnimationPlayer>("Effects")
+            .play_ex()
+            .name("RESET".into())
+            .done();
+        self.invincible = false
     }
 
     #[func]
@@ -100,13 +128,27 @@ impl ICharacterBody2D for Player {
             current_health: 3,
             max_health: 3,
             knockback_power: 500.,
+            invincible: false,
+            collisions: Vec::new(),
         }
+    }
+
+    fn ready(&mut self) {
+        self.base
+            .get_node_as::<AnimationPlayer>("Effects")
+            .play_ex()
+            .name("RESET".into())
+            .done()
     }
 
     fn physics_process(&mut self, _delta: f64) {
         self.handle_input();
         self.update_animation();
-        //self.handle_collision();
         self.base.move_and_slide();
+        if !self.invincible {
+            for area in self.collisions.clone().iter_mut() {
+                self.hurt_by_enemy(area.clone());
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3v0fi33fsnxa"]
+[gd_scene load_steps=13 format=3 uid="uid://3v0fi33fsnxa"]
 
 [ext_resource type="Texture2D" uid="uid://busfl76guhyoi" path="res://art/player-sprites.png" id="1_rov8q"]
 
@@ -104,15 +104,62 @@ size = Vector2(12, 4.75)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62ygx"]
 size = Vector2(14, 11)
 
+[sub_resource type="Animation" id="Animation_brlga"]
+resource_name = "HurtBlink"
+length = 0.4
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.827451, 0.160784, 0.105882, 0.615686), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pulq4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.827451, 0.160784, 0.105882, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0301o"]
+_data = {
+"HurtBlink": SubResource("Animation_brlga"),
+"RESET": SubResource("Animation_pulq4")
+}
+
 [node name="Player" type="Player"]
 z_index = 1
 y_sort_enabled = true
 texture_filter = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 2
 texture = ExtResource("1_rov8q")
 hframes = 4
 vframes = 7
+
+[node name="ColorRect" type="ColorRect" parent="Sprite2D"]
+offset_left = -20.0
+offset_top = -18.0
+offset_right = 20.0
+offset_bottom = 22.0
+color = Color(0.827451, 0.160784, 0.105882, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -131,4 +178,10 @@ position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_62ygx")
 debug_color = Color(0.843137, 0.372549, 0.184314, 0.419608)
 
-[connection signal="area_entered" from="HurtBox" to="." method="on_player_hit"]
+[node name="Effects" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0301o")
+}
+
+[connection signal="area_entered" from="HurtBox" to="." method="on_enter_player_hitbox"]
+[connection signal="area_exited" from="HurtBox" to="." method="on_exit_player_hitbox"]
