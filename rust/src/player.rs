@@ -1,5 +1,3 @@
-use std::net::AddrParseError;
-
 use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
@@ -15,7 +13,6 @@ pub struct Player {
     pub current_health: i32,
     pub max_health: i32,
     pub knockback_power: real,
-    collisions: Vec<Gd<Area2D>>,
     invincible: bool,
 }
 
@@ -58,18 +55,6 @@ impl Player {
             .play_ex()
             .name(animation_name.into())
             .done();
-    }
-
-    #[func]
-    pub fn on_enter_player_hitbox(&mut self, area: Gd<Area2D>) {
-        if area.get_name() == "HitBox".into() {
-            self.collisions.push(area)
-        }
-    }
-
-    #[func]
-    pub fn on_exit_player_hitbox(&mut self, area: Gd<Area2D>) {
-        self.collisions.retain(|v| v != &area);
     }
 
     pub fn hurt_by_enemy(&mut self, area: Gd<Area2D>) {
@@ -129,7 +114,6 @@ impl ICharacterBody2D for Player {
             max_health: 3,
             knockback_power: 500.,
             invincible: false,
-            collisions: Vec::new(),
         }
     }
 
@@ -146,8 +130,9 @@ impl ICharacterBody2D for Player {
         self.update_animation();
         self.base.move_and_slide();
         if !self.invincible {
-            for area in self.collisions.clone().iter_mut() {
-                self.hurt_by_enemy(area.clone());
+            let hurtbox = self.base.get_node_as::<Area2D>("HurtBox");
+            for area in hurtbox.get_overlapping_areas().iter_shared() {
+                self.hurt_by_enemy(area);
             }
         }
     }
