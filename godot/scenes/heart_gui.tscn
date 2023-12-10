@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca2dwd41bjaxc"]
+
+[ext_resource type="Texture2D" uid="uid://dph4m6u6ehuwu" path="res://art/Heart.png" id="1_sqqh2"]
+
+[node name="HeartGui" type="HeartGui"]
+custom_minimum_size = Vector2(16, 13)
+offset_right = 16.0
+offset_bottom = 13.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("1_sqqh2")
+centered = false
+hframes = 5

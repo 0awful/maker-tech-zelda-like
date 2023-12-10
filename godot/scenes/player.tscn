@@ -130,3 +130,5 @@ collision_mask = 3
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_62ygx")
 debug_color = Color(0.843137, 0.372549, 0.184314, 0.419608)
+
+[connection signal="area_entered" from="HurtBox" to="." method="on_player_hit"]

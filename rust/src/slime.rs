@@ -1,4 +1,4 @@
-use godot::engine::{AnimatedSprite2D, CharacterBody2D, ICharacterBody2D, Marker2D};
+use godot::engine::{AnimationPlayer, CharacterBody2D, ICharacterBody2D, Marker2D};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
@@ -45,10 +45,8 @@ impl Slime {
         } else if self.base.get_velocity().x < 0. {
             animation_string = "walkLeft";
         }
-        let mut animation_player = self
-            .base
-            .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
-        animation_player.set_animation(animation_string.into());
+        let mut animation_player = self.base.get_node_as::<AnimationPlayer>("AnimationPlayer");
+        animation_player.set_current_animation(animation_string.into());
         animation_player.play();
     }
 }
