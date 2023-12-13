@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dr165twgmht6q"]
+[gd_scene load_steps=14 format=3 uid="uid://dr165twgmht6q"]
 
 [ext_resource type="PackedScene" uid="uid://3v0fi33fsnxa" path="res://scenes/player.tscn" id="1_8pgmm"]
 [ext_resource type="PackedScene" uid="uid://becc4blr0c5gp" path="res://scenes/enemies/slime.tscn" id="1_r22ym"]
 [ext_resource type="Texture2D" uid="uid://co6t0x2slwok3" path="res://art/TilesetFloor.png" id="2_8jndr"]
 [ext_resource type="Texture2D" uid="uid://cn3cyfwxkoroq" path="res://art/TilesetNature.png" id="3_7ffov"]
+[ext_resource type="PackedScene" uid="uid://btse4lsm4eehj" path="res://life_pot.tscn" id="4_i7m5h"]
 [ext_resource type="Texture2D" uid="uid://bmf2c0qpe63j" path="res://art/animated-flower.png" id="4_uxojq"]
+[ext_resource type="PackedScene" uid="uid://vl8bc58bred0" path="res://sword.tscn" id="5_6kos1"]
 [ext_resource type="PackedScene" uid="uid://cvg18p103td7i" path="res://scenes/hearts_container.tscn" id="6_lphfc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dkgw1"]
@@ -2822,6 +2824,11 @@ texture = ExtResource("3_7ffov")
 11:20/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 11:20/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_tr65r"]
+resource_name = "collectables"
+scenes/1/scene = ExtResource("4_i7m5h")
+scenes/2/scene = ExtResource("5_6kos1")
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c6v6n"]
 texture = ExtResource("4_uxojq")
 0:0/animation_frame_0/duration = 0.4
@@ -2846,6 +2853,7 @@ terrain_set_0/terrain_2/color = Color(0.717647, 0.0705882, 0.0627451, 1)
 sources/0 = SubResource("TileSetAtlasSource_dkgw1")
 sources/1 = SubResource("TileSetAtlasSource_ymc81")
 sources/3 = SubResource("TileSetAtlasSource_c6v6n")
+sources/2 = SubResource("TileSetScenesCollectionSource_tr65r")
 
 [node name="World" type="World"]
 y_sort_enabled = true
@@ -2871,6 +2879,8 @@ layer_2/name = "trees"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
 layer_2/tile_data = PackedInt32Array(393221, 196609, 18, 10, 196609, 18, 393230, 196609, 18, 262160, 196609, 18, 524300, 196609, 18, 524289, 196609, 18, 524286, 524289, 12, 393215, 196609, 18, -65535, 196609, 18, 196606, 524289, 12, 262146, 3, 0, 327692, 3, 0, 65541, 3, 0, 12, 3, 0, 65536, 3, 0, 196623, 3, 0, 655376, 196609, 18, 589846, 196609, 18, 851994, 196609, 18, 393234, 196609, 18, 524314, 196609, 18, 327701, 196609, 18, 18, 196609, 18, 655390, 196609, 18, 196639, 196609, 18, 26, 196609, 18, 917538, 196609, 18, 589860, 196609, 18, -65500, 196609, 18, 917510, 196609, 18, 1245215, 196609, 18, 1179646, 196609, 18, 1376260, 196609, 18, 1310736, 196609, 18, 1114115, 196609, 18, 851966, 196609, 18, -65499, 524289, 12, 37, 524289, 12, 65573, 524289, 12, 131109, 524289, 12, 196645, 524289, 12, 262181, 524289, 12, 327717, 524289, 12, 393253, 524289, 12, 458789, 524289, 12, 524325, 524289, 12, 589861, 524289, 12, 655397, 524289, 12, 720933, 524289, 12, 786469, 524289, 12, 917541, 524289, 12, 983077, 524289, 12, 1048613, 524289, 12, 1114149, 524289, 12, 1179685, 524289, 12, 1310757, 524289, 12, 1376293, 524289, 12, 1376292, 524289, 12, 1376291, 524289, 12, 1376290, 524289, 12, 1376286, 524289, 12, 1376285, 524289, 12, 1376284, 524289, 12, 1376283, 524289, 12, 1376282, 524289, 12, 1376289, 524289, 12, 1376288, 524289, 12, 1376287, 524289, 12, 1376281, 524289, 12, 1376280, 524289, 12, 1376279, 524289, 12, 1376278, 524289, 12, 1376277, 524289, 12, 1376276, 524289, 12, 1376275, 524289, 12, 1376274, 524289, 12, 1376273, 524289, 12, 1376271, 524289, 12, 1376270, 524289, 12, 1376269, 524289, 12, 1376268, 524289, 12, 1376267, 524289, 12, 1376266, 524289, 12, 1376265, 524289, 12, 1376264, 524289, 12, 1376263, 524289, 12, 1376262, 524289, 12, 1376261, 524289, 12, 1376258, 524289, 12, 1376257, 524289, 12, 1376256, 524289, 12, 1441791, 524289, 12, 1441790, 524289, 12, 1310718, 524289, 12, 1376254, 524289, 12, 1048574, 524289, 12, 983038, 524289, 12, 786430, 524289, 12, 720894, 524289, 12, 655358, 524289, 12, 458750, 524289, 12, 327678, 524289, 12, 131070, 524289, 12, 65534, 524289, 12, -2, 524289, 12, -65538, 524289, 12, -65537, 524289, 12, -131072, 524289, 12, -131071, 524289, 12, -131070, 524289, 12, -131069, 524289, 12, -131068, 524289, 12, -65531, 524289, 12, -65530, 524289, 12, -131067, 524289, 12, -131066, 524289, 12, -131065, 524289, 12, -131064, 524289, 12, -131063, 524289, 12, -131062, 524289, 12, -131061, 524289, 12, -131060, 524289, 12, -131059, 524289, 12, -131058, 524289, 12, -131057, 524289, 12, -131056, 524289, 12, -131055, 524289, 12, -131054, 524289, 12, -131053, 524289, 12, -131052, 524289, 12, -131051, 524289, 12, -131050, 524289, 12, -131049, 524289, 12, -131048, 524289, 12, -131047, 524289, 12, -131046, 524289, 12, -131045, 524289, 12, -131044, 524289, 12, -131043, 524289, 12, -131042, 524289, 12, -131041, 524289, 12, -131040, 524289, 12, -131039, 524289, 12, -131038, 524289, 12, -131037, 524289, 12, -131035, 524289, 12, -131036, 524289, 12, 1245221, 524289, 12, 852005, 524289, 12, 262142, 524289, 12, 393214, 524289, 12, 589822, 524289, 12)
+layer_3/name = "collectables"
+layer_3/tile_data = PackedInt32Array(262153, 2, 65536, 458756, 2, 65536, 458763, 2, 65536, 131080, 2, 131072)
 
 [node name="Player" parent="." instance=ExtResource("1_8pgmm")]
 position = Vector2(125, 68)

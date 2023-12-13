@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpw7a3ygqw1ec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s3lc7"]
+resource_local_to_scene = true
+
+[node name="Collectable" type="Collectable"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s3lc7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

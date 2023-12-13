@@ -102,6 +102,13 @@ impl Player {
         self.base.set_velocity(knockback_direction);
         self.base.move_and_slide();
     }
+
+    #[func]
+    pub fn collided_with_object(&mut self, mut area: Gd<Area2D>) {
+        if area.has_method("collect".into()) {
+            area.call("collect".into(), &[]);
+        }
+    }
 }
 
 #[godot_api]
