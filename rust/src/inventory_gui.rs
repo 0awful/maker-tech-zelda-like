@@ -1,5 +1,7 @@
-use godot::engine::Control;
+use godot::engine::{Control, IControl};
 use godot::prelude::*;
+
+use crate::player_inventory::PlayerInventory;
 
 #[derive(GodotClass)]
 #[class(init, base = Control)]
@@ -8,6 +10,7 @@ pub struct InventoryGui {
     base: Base<Control>,
     #[init(default = false)]
     pub is_open: bool,
+    inventory: Option<Gd<PlayerInventory>>,
 }
 
 #[godot_api]
@@ -37,6 +40,19 @@ impl InventoryGui {
             self.base.emit_signal("opened".into(), &[]);
         } else {
             self.base.emit_signal("closed".into(), &[]);
+        }
+    }
+}
+
+#[godot_api]
+impl IControl for InventoryGui {
+    fn ready(&mut self) {
+        if let Some(inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
+            self.inventory = Some(inventory);
+        } else {
+            godot_error!(
+                "Error in inventory_gui, could not load player inventory as PlayerInventory"
+            );
         }
     }
 }

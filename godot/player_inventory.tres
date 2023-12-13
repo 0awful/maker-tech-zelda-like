@@ -1,0 +1,7 @@
+[gd_resource type="PlayerInventory" load_steps=3 format=3 uid="uid://dx3dbngu05id0"]
+
+[ext_resource type="InventoryItem" uid="uid://d1ay2iw0cie2" path="res://life_pot.tres" id="1_3t75l"]
+[ext_resource type="InventoryItem" uid="uid://bkgytxxdvwecs" path="res://sword.tres" id="2_l5cba"]
+
+[resource]
+items = Array[InventoryItem]([ExtResource("1_3t75l"), ExtResource("2_l5cba"), null, null, null, null, null, ExtResource("1_3t75l"), null, null, null, null, ExtResource("1_3t75l"), null, null])

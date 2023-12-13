@@ -2884,6 +2884,7 @@ layer_3/name = "collectables"
 layer_3/tile_data = PackedInt32Array(262153, 2, 65536, 458756, 2, 65536, 458763, 2, 65536, 131080, 2, 131072)
 
 [node name="Player" parent="." instance=ExtResource("1_8pgmm")]
+inventory = null
 position = Vector2(125, 68)
 
 [node name="FollowCam" type="FollowCam" parent="Player" node_paths=PackedStringArray("tilemap")]

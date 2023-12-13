@@ -1,6 +1,7 @@
 use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
+use crate::player_inventory::PlayerInventory;
 use crate::slime::Slime;
 
 #[derive(GodotClass)]
@@ -14,6 +15,8 @@ pub struct Player {
     pub max_health: i32,
     pub knockback_power: real,
     invincible: bool,
+    #[export]
+    inventory: Option<Gd<PlayerInventory>>,
 }
 
 #[godot_api]
@@ -121,6 +124,7 @@ impl ICharacterBody2D for Player {
             max_health: 3,
             knockback_power: 500.,
             invincible: false,
+            inventory: None,
         }
     }
 

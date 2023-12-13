@@ -1,0 +1,7 @@
+[gd_resource type="InventoryItem" load_steps=2 format=3 uid="uid://d1ay2iw0cie2"]
+
+[ext_resource type="Texture2D" uid="uid://hrsryhfbo47e" path="res://art/LifePot.png" id="1_14e6l"]
+
+[resource]
+name = "LifePot"
+texture = ExtResource("1_14e6l")

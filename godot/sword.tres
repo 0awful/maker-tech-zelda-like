@@ -1,0 +1,7 @@
+[gd_resource type="InventoryItem" load_steps=2 format=3 uid="uid://bkgytxxdvwecs"]
+
+[ext_resource type="Texture2D" uid="uid://cmp32i6elws4b" path="res://art/Sprite.png" id="1_is5ew"]
+
+[resource]
+name = "Sword"
+texture = ExtResource("1_is5ew")
