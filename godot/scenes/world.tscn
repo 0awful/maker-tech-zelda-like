@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dr165twgmht6q"]
+[gd_scene load_steps=15 format=3 uid="uid://dr165twgmht6q"]
 
 [ext_resource type="PackedScene" uid="uid://3v0fi33fsnxa" path="res://scenes/player.tscn" id="1_8pgmm"]
 [ext_resource type="PackedScene" uid="uid://becc4blr0c5gp" path="res://scenes/enemies/slime.tscn" id="1_r22ym"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bmf2c0qpe63j" path="res://art/animated-flower.png" id="4_uxojq"]
 [ext_resource type="PackedScene" uid="uid://vl8bc58bred0" path="res://sword.tscn" id="5_6kos1"]
 [ext_resource type="PackedScene" uid="uid://cvg18p103td7i" path="res://scenes/hearts_container.tscn" id="6_lphfc"]
+[ext_resource type="PackedScene" uid="uid://dshd1i3pwi50u" path="res://inventory_gui.tscn" id="9_gmudr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dkgw1"]
 texture = ExtResource("2_8jndr")
@@ -2889,10 +2890,26 @@ position = Vector2(125, 68)
 tilemap = NodePath("../../TileMap")
 position_smoothing_enabled = true
 
-[node name="Gui" type="CanvasLayer" parent="."]
+[node name="Gui" type="Gui" parent="."]
+process_mode = 3
 
 [node name="HeartsContainer" parent="Gui" instance=ExtResource("6_lphfc")]
 offset_right = 52.0
 size_flags_vertical = 4
 
+[node name="InventoryGui" parent="Gui" instance=ExtResource("9_gmudr")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -40.0
+offset_right = 64.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="hit" from="Player" to="." method="on_player_hit"]
+[connection signal="closed" from="Gui/InventoryGui" to="." method="should_resume"]
+[connection signal="opened" from="Gui/InventoryGui" to="." method="should_pause"]
