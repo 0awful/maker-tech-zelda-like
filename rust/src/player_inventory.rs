@@ -1,7 +1,7 @@
-use godot::engine::{IResource, Resource};
+use godot::engine::Resource;
 use godot::prelude::*;
 
-use crate::inventory_items::InventoryItem;
+use crate::inventory_item::InventoryItem;
 
 #[derive(GodotClass)]
 #[class(init, base = Resource)]
@@ -9,7 +9,7 @@ pub struct PlayerInventory {
     #[base]
     base: Base<Resource>,
     #[export]
-    items: Array<Gd<InventoryItem>>,
+    pub items: Array<Option<Gd<InventoryItem>>>,
 }
 
 #[godot_api]

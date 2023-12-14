@@ -6,10 +6,11 @@ mod gui;
 mod heart_gui;
 mod hearts_container;
 mod inventory_gui;
-mod inventory_items;
+mod inventory_item;
 mod player;
 mod player_inventory;
 mod slime;
+mod slot_gui;
 mod sword;
 mod world;
 

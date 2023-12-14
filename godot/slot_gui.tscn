@@ -2,13 +2,25 @@
 
 [ext_resource type="Texture2D" uid="uid://bymdl1rkinida" path="res://art/inventorySlot.png" id="1_kc1vl"]
 
-[node name="SlotGui" type="Panel"]
-self_modulate = Color(1, 1, 1, 0)
+[node name="SlotGui" type="SlotGui"]
 custom_minimum_size = Vector2(20, 20)
 offset_right = 20.0
 offset_bottom = 20.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_kc1vl")
 centered = false
 vframes = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Item" type="Sprite2D" parent="CenterContainer/Panel"]
