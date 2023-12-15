@@ -1,8 +1,8 @@
 use godot::engine::{Control, GridContainer, IControl};
 use godot::prelude::*;
 
-use crate::player_inventory::PlayerInventory;
-use crate::slot_gui::SlotGui;
+use crate::gui::slot_gui::SlotGui;
+use crate::resources::player_inventory::PlayerInventory;
 
 #[derive(GodotClass)]
 #[class(init, base = Control)]
@@ -49,7 +49,6 @@ impl InventoryGui {
             .base
             .get_node_as::<GridContainer>("NinePatchRect/GridContainer")
             .get_children();
-        godot_print!("slots are: {:?}", slots);
         for i in 0..slots.len() {
             if let Ok(mut slot) = slots.get(i).try_cast::<SlotGui>() {
                 let item = self
@@ -72,7 +71,11 @@ impl InventoryGui {
 #[godot_api]
 impl IControl for InventoryGui {
     fn ready(&mut self) {
-        if let Some(inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
+        if let Some(mut inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
+            inventory
+                .connect_ex("updated".into(), self.base.callable("update"))
+                .flags(1)
+                .done();
             self.inventory = Some(inventory);
             self.update();
         } else {

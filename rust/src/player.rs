@@ -1,22 +1,31 @@
 use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
-use crate::player_inventory::PlayerInventory;
+use crate::resources::inventory_item::InventoryItem;
+use crate::resources::player_inventory::PlayerInventory;
 use crate::slime::Slime;
 
+const PLAYER_SPEED: real = real!(35.0);
+const MAX_HEALTH: i32 = 3;
+const PLAYER_KNOCKBACK: real = real!(500.0);
+
 #[derive(GodotClass)]
-#[class(base = CharacterBody2D)]
+#[class(init, base = CharacterBody2D)]
 pub struct Player {
     #[base]
     base: Base<CharacterBody2D>,
-    #[export]
+    #[init(default = PLAYER_SPEED.into())]
     speed: real,
+    #[init(default = MAX_HEALTH)]
     pub current_health: i32,
+    #[init(default = MAX_HEALTH)]
     pub max_health: i32,
+    #[init(default = PLAYER_KNOCKBACK)]
     pub knockback_power: real,
+    #[init(default = false)]
     invincible: bool,
     #[export]
-    inventory: Option<Gd<PlayerInventory>>,
+    inventory: Gd<PlayerInventory>,
 }
 
 #[godot_api]
@@ -109,31 +118,23 @@ impl Player {
     #[func]
     pub fn collided_with_object(&mut self, mut area: Gd<Area2D>) {
         if area.has_method("collect".into()) {
-            area.call("collect".into(), &[]);
+            area.call("collect".into(), &[Variant::from(self.inventory.clone())]);
         }
     }
 }
 
 #[godot_api]
 impl ICharacterBody2D for Player {
-    fn init(base: Base<Self::Base>) -> Self {
-        Player {
-            base,
-            speed: 35.0.into(),
-            current_health: 3,
-            max_health: 3,
-            knockback_power: 500.,
-            invincible: false,
-            inventory: None,
-        }
-    }
-
     fn ready(&mut self) {
         self.base
             .get_node_as::<AnimationPlayer>("Effects")
             .play_ex()
             .name("RESET".into())
-            .done()
+            .done();
+
+        if let Some(inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
+            self.inventory = inventory
+        }
     }
 
     fn physics_process(&mut self, _delta: f64) {

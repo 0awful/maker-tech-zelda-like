@@ -1,7 +1,8 @@
 use godot::engine::Area2D;
 use godot::prelude::*;
 
-use crate::inventory_item::InventoryItem;
+use crate::resources::inventory_item::InventoryItem;
+use crate::resources::player_inventory::PlayerInventory;
 
 #[derive(GodotClass)]
 #[class(init, base = Area2D)]
@@ -22,7 +23,8 @@ where
 #[godot_api]
 impl Collectable {
     #[func]
-    pub fn collect(&mut self) {
+    pub fn collect(&mut self, mut inventory: Gd<PlayerInventory>) {
+        inventory.call_deferred("insert".into(), &[Variant::from(self.item.clone())]);
         collect(self.base.clone());
     }
 }

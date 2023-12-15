@@ -1,7 +1,7 @@
 use godot::engine::{CanvasLayer, Control, ICanvasLayer, InputEvent};
 use godot::prelude::*;
 
-use crate::inventory_gui::InventoryGui;
+use crate::gui::inventory_gui::InventoryGui;
 
 #[derive(GodotClass)]
 #[class(init, base = CanvasLayer)]

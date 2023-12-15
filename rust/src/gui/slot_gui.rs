@@ -1,7 +1,7 @@
 use godot::engine::{Control, IControl, Sprite2D};
 use godot::prelude::*;
 
-use crate::inventory_item::InventoryItem;
+use crate::resources::inventory_item::InventoryItem;
 
 #[derive(GodotClass)]
 #[class(base = Control)]

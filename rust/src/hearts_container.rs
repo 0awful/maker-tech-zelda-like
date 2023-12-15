@@ -1,7 +1,7 @@
 use godot::engine::{Control, HBoxContainer, IHBoxContainer};
 use godot::prelude::*;
 
-use crate::heart_gui::HeartGui;
+use crate::gui::heart_gui::HeartGui;
 
 #[derive(GodotClass)]
 #[class(base = HBoxContainer)]
