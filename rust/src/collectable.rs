@@ -1,14 +1,18 @@
-use godot::engine::{Area2D, IArea2D};
+use godot::engine::Area2D;
 use godot::prelude::*;
 
+use crate::inventory_item::InventoryItem;
+
 #[derive(GodotClass)]
-#[class(base = Area2D)]
+#[class(init, base = Area2D)]
 pub struct Collectable {
     #[base]
     base: Base<Area2D>,
+    #[export]
+    item: Option<Gd<InventoryItem>>,
 }
 
-pub fn collect_it<T>(node: Gd<T>)
+pub fn collect<T>(node: Gd<T>)
 where
     T: Inherits<Node>,
 {
@@ -19,13 +23,6 @@ where
 impl Collectable {
     #[func]
     pub fn collect(&mut self) {
-        collect_it(self.base.clone());
-    }
-}
-
-#[godot_api]
-impl IArea2D for Collectable {
-    fn init(base: Base<Self::Base>) -> Self {
-        Collectable { base }
+        collect(self.base.clone());
     }
 }

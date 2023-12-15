@@ -1,14 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://vl8bc58bred0"]
+[gd_scene load_steps=7 format=3 uid="uid://vl8bc58bred0"]
 
+[ext_resource type="InventoryItem" uid="uid://bkgytxxdvwecs" path="res://sword.tres" id="1_4ave3"]
 [ext_resource type="Texture2D" uid="uid://cmp32i6elws4b" path="res://art/Sprite.png" id="1_kcyjh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbovm"]
 size = Vector2(6, 14)
 
+[sub_resource type="Animation" id="Animation_o3n3j"]
+resource_name = "collect"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_d15dr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mnnly"]
+_data = {
+"RESET": SubResource("Animation_d15dr"),
+"collect": SubResource("Animation_o3n3j")
+}
+
 [node name="Sword" type="Sword"]
+item = ExtResource("1_4ave3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pbovm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_kcyjh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mnnly")
+}
