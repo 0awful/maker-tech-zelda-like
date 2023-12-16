@@ -1,7 +1,34 @@
-[gd_resource type="PlayerInventory" load_steps=3 format=3 uid="uid://dx3dbngu05id0"]
+[gd_resource type="PlayerInventory" load_steps=16 format=3 uid="uid://dx3dbngu05id0"]
 
-[ext_resource type="InventoryItem" uid="uid://d1ay2iw0cie2" path="res://life_pot.tres" id="1_3t75l"]
-[ext_resource type="InventoryItem" uid="uid://bkgytxxdvwecs" path="res://sword.tres" id="2_l5cba"]
+[sub_resource type="InventorySlot" id="InventorySlot_62sq5"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_u0qd7"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_8ctd5"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_vfspe"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_oett2"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_1v7a7"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_jl6e7"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_mpb1k"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_kb2wm"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_xhsos"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_j68qq"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_yt3e8"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_8w7fp"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_wn5vc"]
+
+[sub_resource type="InventorySlot" id="InventorySlot_ar0c7"]
 
 [resource]
-items = Array[InventoryItem]([ExtResource("1_3t75l"), ExtResource("2_l5cba"), null, null, null, null, null, ExtResource("1_3t75l"), null, null, null, null, ExtResource("1_3t75l"), null, null])
+slots = Array[InventorySlot]([SubResource("InventorySlot_62sq5"), SubResource("InventorySlot_u0qd7"), SubResource("InventorySlot_8ctd5"), SubResource("InventorySlot_vfspe"), SubResource("InventorySlot_oett2"), SubResource("InventorySlot_1v7a7"), SubResource("InventorySlot_jl6e7"), SubResource("InventorySlot_mpb1k"), SubResource("InventorySlot_kb2wm"), SubResource("InventorySlot_xhsos"), SubResource("InventorySlot_j68qq"), SubResource("InventorySlot_yt3e8"), SubResource("InventorySlot_8w7fp"), SubResource("InventorySlot_wn5vc"), SubResource("InventorySlot_ar0c7")])

@@ -5,3 +5,4 @@
 [resource]
 name = "LifePot"
 texture = ExtResource("1_14e6l")
+max_amount = 5

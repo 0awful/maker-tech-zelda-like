@@ -56,7 +56,7 @@ impl InventoryGui {
                     .clone()
                     .expect("No inventory in update call, big error")
                     .bind()
-                    .items
+                    .slots
                     .get(i);
                 slot.bind_mut().update(item);
             } else {

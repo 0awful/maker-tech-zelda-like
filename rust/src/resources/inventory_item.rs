@@ -10,6 +10,8 @@ pub struct InventoryItem {
     name: GString,
     #[export]
     texture: Gd<Texture2D>,
+    #[export]
+    max_amount: i32,
 }
 
 #[godot_api]

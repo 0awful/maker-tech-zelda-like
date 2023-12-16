@@ -5,3 +5,4 @@
 [resource]
 name = "Sword"
 texture = ExtResource("1_is5ew")
+max_amount = 1

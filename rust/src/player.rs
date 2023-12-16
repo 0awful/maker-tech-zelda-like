@@ -9,6 +9,13 @@ const PLAYER_SPEED: real = real!(35.0);
 const MAX_HEALTH: i32 = 3;
 const PLAYER_KNOCKBACK: real = real!(500.0);
 
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
 #[derive(GodotClass)]
 #[class(init, base = CharacterBody2D)]
 pub struct Player {
@@ -26,6 +33,10 @@ pub struct Player {
     invincible: bool,
     #[export]
     inventory: Gd<PlayerInventory>,
+    #[init(default = Direction::Down)]
+    facing_direction: Direction,
+    #[init(default = false)]
+    attacking: bool,
 }
 
 #[godot_api]
@@ -42,25 +53,61 @@ impl Player {
             "ui_up".into(),
             "ui_down".into(),
         );
+
+        if input.is_action_just_pressed("attack".into()) {
+            self.base.get_node_as::<Node2D>("Weapon").show();
+            let mut animation_player = self.base.get_node_as::<AnimationPlayer>("AnimationPlayer");
+            let animation_name = match self.facing_direction {
+                Direction::Down => "attack_down",
+                Direction::Up => "attack_up",
+                Direction::Right => "attack_right",
+                Direction::Left => "attack_left",
+            };
+            self.attacking = true;
+            animation_player
+                .play_ex()
+                .name(animation_name.into())
+                .done();
+
+            let mut timer = self.base.get_tree().unwrap().create_timer(0.2).unwrap();
+            timer.connect("timeout".into(), self.base.callable("end_attacking"));
+        }
+
         self.base.set_velocity(movement_vec * self.speed)
     }
 
     #[func]
+    pub fn end_attacking(&mut self) {
+        let mut animation_player = self.base.get_node_as::<AnimationPlayer>("AnimationPlayer");
+        animation_player.play_ex().name("RESET".into()).done();
+        self.attacking = false;
+        self.base.get_node_as::<Node2D>("Weapon").hide();
+    }
+
+    #[func]
     pub fn update_animation(&mut self) {
+        if self.attacking {
+            return;
+        }
+
         let mut animation_player = self.base.get_node_as::<AnimationPlayer>("AnimationPlayer");
         if self.base.get_velocity().length_squared() == 0.0 {
             return animation_player.stop();
         }
 
         let mut animation_name = "walkDown";
+        self.facing_direction = Direction::Down;
         if self.base.get_velocity().x < 0.0 {
             animation_name = "walkLeft";
+            self.facing_direction = Direction::Left;
         }
         if self.base.get_velocity().x > 0.0 {
             animation_name = "walkRight";
+            self.facing_direction = Direction::Right;
         }
         if self.base.get_velocity().y < 0.0 {
             animation_name = "walkUp";
+            self.facing_direction = Direction::Up;
         }
 
         animation_player
@@ -126,6 +173,7 @@ impl Player {
 #[godot_api]
 impl ICharacterBody2D for Player {
     fn ready(&mut self) {
+        self.base.get_node_as::<Node2D>("Weapon").hide();
         self.base
             .get_node_as::<AnimationPlayer>("Effects")
             .play_ex()
@@ -133,6 +181,7 @@ impl ICharacterBody2D for Player {
             .done();
 
         if let Some(inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
+            godot_print!("player loaded inventory");
             self.inventory = inventory
         }
     }
