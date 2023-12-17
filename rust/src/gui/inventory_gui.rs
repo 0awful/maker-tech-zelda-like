@@ -4,6 +4,8 @@ use godot::prelude::*;
 use crate::gui::slot_gui::SlotGui;
 use crate::resources::player_inventory::PlayerInventory;
 
+const GRID_CONTAINER_PATH: &str = "NinePatchRect/GridContainer";
+
 #[derive(GodotClass)]
 #[class(init, base = Control)]
 pub struct InventoryGui {
@@ -47,7 +49,7 @@ impl InventoryGui {
     pub fn update(&mut self) {
         let slots = self
             .base
-            .get_node_as::<GridContainer>("NinePatchRect/GridContainer")
+            .get_node_as::<GridContainer>(GRID_CONTAINER_PATH)
             .get_children();
         for i in 0..slots.len() {
             if let Ok(mut slot) = slots.get(i).try_cast::<SlotGui>() {
@@ -61,10 +63,30 @@ impl InventoryGui {
                 slot.bind_mut().update(item);
             } else {
                 godot_error!(
-                    "Unable to cast grid container slot to SlotGui, are you using the right node?"
+                    "Unable to cast grid container slot to SlotGui, are you using the right nodes?"
                 )
             }
         }
+    }
+    pub fn connect_slots(&mut self) {
+        let slots = self
+            .base
+            .get_node_as::<GridContainer>(GRID_CONTAINER_PATH)
+            .get_children();
+        for i in 0..slots.len() {
+            if let Ok(mut slot) = slots.get(i).try_cast::<SlotGui>() {
+                slot.connect("pressed".into(), self.base.callable("on_slot_clicked"));
+            } else {
+                godot_error!(
+                    "Unable to cast grid container slot to SlotGui, are you using the right nodes?"
+                )
+            }
+        }
+    }
+
+    #[func]
+    pub fn on_slot_clicked(&mut self, slot: Gd<SlotGui>) {
+        godot_print!("And we clicked this slot: {:?}", slot);
     }
 }
 
@@ -83,5 +105,6 @@ impl IControl for InventoryGui {
                 "Error in inventory_gui, could not load player inventory as PlayerInventory"
             );
         }
+        self.connect_slots();
     }
 }

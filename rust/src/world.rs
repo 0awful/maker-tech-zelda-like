@@ -50,8 +50,10 @@ impl INode2D for World {
         let mut hearts_container = gui.get_node_as::<HeartsContainer>("HeartsContainer");
         let mut hearts_container = hearts_container.bind_mut();
 
-        let player = self.base.get_node_as::<Player>("Player");
-
-        hearts_container.set_max_hearts(player.bind().max_health);
+        if let Some(player) = self.base.try_get_node_as::<Player>("Player") {
+            hearts_container.set_max_hearts(player.bind().max_health);
+        } else {
+            godot_print!("player doesn't exist. Weird right?")
+        }
     }
 }

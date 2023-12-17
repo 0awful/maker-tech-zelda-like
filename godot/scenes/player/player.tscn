@@ -1,8 +1,9 @@
 [gd_scene load_steps=19 format=3 uid="uid://3v0fi33fsnxa"]
 
-[ext_resource type="PlayerInventory" uid="uid://dx3dbngu05id0" path="res://player_inventory.tres" id="1_3o1rw"]
 [ext_resource type="Texture2D" uid="uid://busfl76guhyoi" path="res://art/player-sprites.png" id="1_rov8q"]
 [ext_resource type="PackedScene" uid="uid://rs64bapdwkbs" path="res://scenes/player/sword .tscn" id="3_ha0nw"]
+
+[sub_resource type="PlayerInventory" id="PlayerInventory_bfwol"]
 
 [sub_resource type="Animation" id="Animation_tvsn0"]
 length = 0.001
@@ -346,7 +347,7 @@ _data = {
 }
 
 [node name="Player" type="Player"]
-inventory = ExtResource("1_3o1rw")
+inventory = SubResource("PlayerInventory_bfwol")
 z_index = 1
 y_sort_enabled = true
 texture_filter = 1
@@ -375,7 +376,8 @@ position = Vector2(0, 5.375)
 shape = SubResource("RectangleShape2D_6odd3")
 
 [node name="HurtBox" type="Area2D" parent="."]
-collision_mask = 3
+collision_layer = 0
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0, 2.5)

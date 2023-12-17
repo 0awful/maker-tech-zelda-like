@@ -1,13 +1,13 @@
-use godot::engine::{Control, IControl, Label, Sprite2D};
+use godot::engine::{Button, Label, Sprite2D};
 use godot::prelude::*;
 
 use crate::resources::inventory_slot::InventorySlot;
 
 #[derive(GodotClass)]
-#[class(base = Control)]
+#[class(init, base = Button)]
 pub struct SlotGui {
     #[base]
-    base: Base<Control>,
+    base: Base<Button>,
 }
 
 const ITEM_SPRITE_PATH: &str = "CenterContainer/Panel/Item";
@@ -37,12 +37,5 @@ impl SlotGui {
             let mut label = self.base.get_node_as::<Label>(LABEL_PATH);
             label.set_text("".into());
         }
-    }
-}
-
-#[godot_api]
-impl IControl for SlotGui {
-    fn init(base: Base<Self::Base>) -> Self {
-        SlotGui { base }
     }
 }

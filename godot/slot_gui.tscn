@@ -5,10 +5,8 @@
 
 [node name="SlotGui" type="SlotGui"]
 custom_minimum_size = Vector2(20, 20)
-offset_right = 20.0
-offset_bottom = 20.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
+offset_right = 8.0
+offset_bottom = 8.0
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_kc1vl")

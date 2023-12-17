@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://biuebf1yrv8dm"
-path="res://.godot/imported/SpriteSheet.png-acbb65674426a1fb91cbe7c7b36fcd3b.ctex"
+path="res://.godot/imported/SpriteSheet.png-1d234fc060cd940f420ce658712c3b6d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/FX/Smoke/Smoke/SpriteSheet.png"
-dest_files=["res://.godot/imported/SpriteSheet.png-acbb65674426a1fb91cbe7c7b36fcd3b.ctex"]
+source_file="res://art/SpriteSheet.png"
+dest_files=["res://.godot/imported/SpriteSheet.png-1d234fc060cd940f420ce658712c3b6d.ctex"]
 
 [params]
 

@@ -1,7 +1,6 @@
 use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D};
 use godot::prelude::*;
 
-use crate::resources::inventory_item::InventoryItem;
 use crate::resources::player_inventory::PlayerInventory;
 use crate::slime::Slime;
 
@@ -181,7 +180,6 @@ impl ICharacterBody2D for Player {
             .done();
 
         if let Some(inventory) = try_load::<PlayerInventory>("res://player_inventory.tres") {
-            godot_print!("player loaded inventory");
             self.inventory = inventory
         }
     }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dr165twgmht6q"]
+[gd_scene load_steps=15 format=3 uid="uid://dr165twgmht6q"]
 
 [ext_resource type="PackedScene" uid="uid://3v0fi33fsnxa" path="res://scenes/player/player.tscn" id="1_8pgmm"]
 [ext_resource type="PackedScene" uid="uid://becc4blr0c5gp" path="res://scenes/enemies/slime.tscn" id="1_r22ym"]
@@ -2856,8 +2856,6 @@ sources/1 = SubResource("TileSetAtlasSource_ymc81")
 sources/3 = SubResource("TileSetAtlasSource_c6v6n")
 sources/2 = SubResource("TileSetScenesCollectionSource_tr65r")
 
-[sub_resource type="PlayerInventory" id="PlayerInventory_wambs"]
-
 [node name="World" type="World"]
 y_sort_enabled = true
 
@@ -2886,11 +2884,9 @@ layer_3/name = "collectables"
 layer_3/tile_data = PackedInt32Array(262153, 2, 65536, 458756, 2, 65536, 458763, 2, 65536, 131080, 2, 131072, 131077, 2, 65536, 196613, 2, 65536, 196612, 2, 65536, 262148, 2, 65536, 262147, 2, 65536, 327683, 2, 65536, 393219, 2, 65536, 393218, 2, 65536, 327682, 2, 65536, 65545, 2, 131072, 65546, 2, 131072, 131083, 2, 131072, 131084, 2, 131072, 131085, 2, 131072)
 
 [node name="Player" parent="." instance=ExtResource("1_8pgmm")]
-inventory = SubResource("PlayerInventory_wambs")
 position = Vector2(125, 68)
 
-[node name="FollowCam" type="FollowCam" parent="Player" node_paths=PackedStringArray("tilemap")]
-tilemap = NodePath("../../TileMap")
+[node name="FollowCam" type="Camera2D" parent="Player"]
 position_smoothing_enabled = true
 
 [node name="Gui" type="Gui" parent="."]
@@ -2913,6 +2909,5 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="hit" from="Player" to="." method="on_player_hit"]
 [connection signal="closed" from="Gui/InventoryGui" to="." method="should_resume"]
 [connection signal="opened" from="Gui/InventoryGui" to="." method="should_pause"]

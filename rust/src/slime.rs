@@ -1,4 +1,4 @@
-use godot::engine::{AnimationPlayer, CharacterBody2D, ICharacterBody2D, Marker2D};
+use godot::engine::{AnimationPlayer, Area2D, CharacterBody2D, ICharacterBody2D, Marker2D};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
@@ -10,12 +10,43 @@ pub struct Slime {
     end_position: Vector2,
     speed: real,
     limit: real,
+    dead: bool,
     #[export]
     marker: Option<Gd<Marker2D>>,
 }
 
 #[godot_api]
 impl Slime {
+    #[func]
+    pub fn hurt_box_entered(&mut self, area: Gd<Area2D>) {
+        if let Some(parent) = area.get_parent() {
+            if parent.is_in_group("mobs".into()) {
+                return;
+            }
+        }
+        self.base
+            .get_node_as::<AnimationPlayer>("AnimationPlayer")
+            .play_ex()
+            .name("despawn".into())
+            .done();
+        self.set_dead();
+    }
+
+    #[func]
+    pub fn set_dead(&mut self) {
+        self.dead = true;
+        self.base.get_node_as::<Area2D>("HitBox").hide();
+        self.base.get_node_as::<Area2D>("HurtBox").hide();
+
+        let mut timer = self.base.get_tree().unwrap().create_timer(0.5).unwrap();
+        timer.connect("timeout".into(), self.base.callable("despawn"));
+    }
+
+    #[func]
+    pub fn despawn(&mut self) {
+        self.base.queue_free();
+    }
+
     #[func]
     pub fn update_velocity(&mut self) {
         let move_direction = self.end_position - self.base.get_position();
@@ -61,6 +92,7 @@ impl ICharacterBody2D for Slime {
             speed: 36.,
             limit: 0.5,
             marker: None,
+            dead: false,
         }
     }
 
@@ -74,6 +106,9 @@ impl ICharacterBody2D for Slime {
     }
 
     fn physics_process(&mut self, _: f64) {
+        if self.dead {
+            return;
+        }
         self.update_velocity();
         self.base.move_and_slide();
         self.update_animation();
